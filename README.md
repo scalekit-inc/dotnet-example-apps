@@ -29,8 +29,9 @@ This ASP.NET Core Web API Sample App showcases the Scalekit Official .NET SDK im
 
 1. Clone the repository:
 ```sh
-git clone https://github.com/scalekit-inc/scalekit-net-example.git
-cd scalekit-net-example
+# Clone the repository along with ReactJS submodule
+git clone --recursive https://github.com/scalekit-developers/dotnet-example-apps.git
+cd dotnet-example-apps
 ```
 
 2. Install .NET dependencies:
@@ -43,8 +44,8 @@ dotnet restore
 
 3. Add ReactJS submodule for frontend elements:
 ```sh
-git clone --recursive https://github.com/scalekit-inc/scalekit-dotnet-example.git
 # Build the ReactJS submodule
+cd web
 npm run build
 
 # Copy all files from React build folder to ASP.NET Core WebAPI wwwroot folder
@@ -53,6 +54,7 @@ cp -r ./path-to-react-app/build/* ./path-to-aspnetcore-app/wwwroot/
 
 4. Set up environment variables:
 ```sh
+# From the root directory
 cp .env.example .env
 ```
 
