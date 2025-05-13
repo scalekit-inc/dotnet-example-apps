@@ -1,4 +1,4 @@
-<p align="left">
+<p align="center">
   <a href="https://scalekit.com" target="_blank" rel="noopener noreferrer">
     <picture>
       <img src="https://cdn.scalekit.cloud/v1/scalekit-logo-dark.svg" height="64">
@@ -6,135 +6,71 @@
   </a>
   <br/>
 </p>
+<h1 align="center">
+  Scalekit ASP.NET Example App
+</h1>
 
-# Official .NET SDK
-<a href="https://scalekit.com" target="_blank" rel="noopener noreferrer">Scalekit</a> is an Enterprise Authentication Platform purpose built for B2B applications. This .NET SDK helps implement Enterprise Capabilities like Single Sign-on via SAML or OIDC in your .NET applications within a few hours.
+<h4 align="center">
+Scalekit helps you ship Enterprise Auth in days.
 
-<div>
-📚 <a target="_blank" href="https://docs.scalekit.com">Documentation</a> - 🚀 <a target="_blank" href="https://docs.scalekit.com">Quick-start Guide</a> - 💻 <a target="_blank" href="https://docs.scalekit.com/apis">API Reference</a>
-</div>
-<hr />
+This ASP.NET Core Web API Sample App showcases the Scalekit Official .NET SDK implementation.
+</h4>
 
-## Pre-requisites
+## Prerequisites
 
-1. [Sign up](https://scalekit.com) for a Scalekit account.
-2. Get your ```env_url```, ```client_id``` and ```client_secret``` from the Scalekit dashboard.
+- [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) or later
 
-## Installation
-Add Scalekit SDK package from Nuget package manager. 
+## Getting Started
+
+1. [Sign up](https://scalekit.com) for a Scalekit account
+2. Get your `env_url`, `client_id` and `client_secret` from the Scalekit dashboard
+
+## Project Setup
+
+1. Clone the repository:
+```sh
+git clone https://github.com/scalekit-inc/scalekit-net-example.git
+cd scalekit-net-example
+```
+
+2. Install .NET dependencies:
+```sh
+# Install Scalekit.SDK package
+dotnet add package Scalekit.SDK
+dotnet add package DotNetEnv
+dotnet restore
+```
+
+3. Add ReactJS submodule for frontend elements:
+```sh
+git clone --recursive https://github.com/scalekit-inc/scalekit-dotnet-example.git
+# Build the ReactJS submodule
+npm run build
+
+# Copy all files from React build folder to ASP.NET Core WebAPI wwwroot folder
+cp -r ./path-to-react-app/build/* ./path-to-aspnetcore-app/wwwroot/
+```
+
+4. Set up environment variables:
+```sh
+cp .env.example .env
+```
+
+Update `.env` with your Scalekit credentials:
+```ini
+SCALEKIT_ENV_URL=your_env_url
+SCALEKIT_CLIENT_ID=your_client_id
+SCALEKIT_CLIENT_SECRET=your_client_secret
+```
+
+5. Run the application in development mode:
 
 ```sh
-dotnet add package Scalekit.SDK
+# From the root directory
+dotnet run
 
+Open http://localhost:5125 to view it in the browser.
 ```
 
-## Usage
-
-Initialize the Scalekit client using the appropriate credentials. Refer code sample below.
-```.net
-using Scalekit.SDK;
-using Scalekit.SDK.Models;
-
-ScalekitClient scalekitClient = new ScalekitClient(
-    Environment.GetEnvironmentVariable("SCALEKIT_ENV_URL"),
-    Environment.GetEnvironmentVariable("SCALEKIT_CLIENT_ID"),
-    Environment.GetEnvironmentVariable("SCALEKIT_CLIENT_SECRET")
-);
-```
-
-##### Minimum Requirements
-
-The Scalekit .NET SDK is designed to operate with the following environment:
-
-| Component | Version |
-| --------- | ------- |
-| .NET      | 8.0      |
-
-
-## Examples - SSO with ASP.Net Core Web API 
-
-Below is a simple code sample that showcases how to implement Single Sign-on using Scalekit SDK
-
-```.net
-[Route("auth")]
-[ApiController]
-public class AuthController : ControllerBase
-{
-    private readonly ScalekitClient _scalekitClient;
-    private readonly string? _redirectUri;
-
-    public AuthController()
-    {
-        _scalekitClient = new ScalekitClient(scalekitUrl, clientId, clientSecret);
-        _redirect_uri = "http://localhost:8000/auth/callback"
-    }
-
-    [HttpPost("login")]
-    public IActionResult Login([FromBody] LoginRequest request)
-    {
-        var options = new AuthorizationUrlOptions
-        {
-            ConnectionId = request.ConnectionId,
-            OrganizationId = request.OrganizationId,
-            LoginHint = request.Email,
-            State = Guid.NewGuid().ToString()
-        };
-
-        string authUrl = _scalekitClient.GetAuthorizationUrl(_redirectUri, options);
-        return Ok(new { url = authUrl });
-    }
-
-
-    [HttpGet("callback")]
-    public async Task<IActionResult> Callback(
-        string? code, 
-        string? error_description = null, 
-        string? idp_initiated_login = null)
-    {
-        try
-        {
-            var result = await _scalekitClient.AuthenticateWithCode(code, _redirectUri, new AuthenticationOptions());
-            var user = result.User;
-
-            if (user == null || string.IsNullOrEmpty(user.Id))
-                return BadRequest(new { message = "User information is missing or invalid." });
-
-            _userStore[user.Id] = new User
-            {
-                Id = user.Id,
-                Name = $"{user.GivenName} {user.FamilyName}".Trim(),
-                Email = user.Email
-            };
-
-            Response.Cookies.Append("uid", user.Id, new CookieOptions
-            {
-                HttpOnly = true,
-                SameSite = SameSiteMode.Lax,
-                Path = "/"
-            });
-
-            return Redirect("/profile");
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { message = ex.Message });
-        }
-    }
-}
-```
-
-## Example Apps
-
-Fully functional sample applications written using Asp.Net Core Web API and Scalekit SDK. Feel free to clone the repo and run them locally.
-
-- [ASP.Net Core Web API ](https://github.com/scalekit-inc/scalekit-dotnet-example)
-
-
-## API Reference
-
-Refer to our [API reference docs](https://docs.scalekit.com/apis) for detailed information about all our API endpoints and their usage.
-
-## More Information
-
-- Quickstart Guide to implement Single Sign-on in your application: [SSO Quickstart Guide](https://docs.scalekit.com)
-- Understand Single Sign-on basics: [SSO Basics](https://docs.scalekit.com/best-practices/single-sign-on)
+## Additional Resources
+See the [Scalekit API docs](https://docs.scalekit.com) for more information about the API and authentication.
