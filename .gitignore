@@ -1,0 +1,22 @@
+# Build artifacts
+bin/
+obj/
+
+# User specific files
+*.user
+*.suo
+
+# Environment files
+.env
+
+# http files
+*.http
+
+# React files
+wwwroot/
+
+# Nuget Packages
+local-nuget-source/
+
+#Macos files
+.DS_Store
