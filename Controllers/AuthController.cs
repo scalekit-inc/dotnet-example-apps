@@ -102,7 +102,7 @@ namespace ScalekitSdkNet.Controllers
         {
             try
             {
-                var claims = await _scalekitClient.GetIdpInitiatedLoginClaims(loginToken);
+                var claims = await _scalekitClient.GetIdpInitiatedLoginClaimsAsync(loginToken);
 
                 var options = new AuthorizationUrlOptions
                 {
@@ -125,7 +125,7 @@ namespace ScalekitSdkNet.Controllers
         {
             try
             {
-                var result = await _scalekitClient.AuthenticateWithCode(code, redirectUri, new AuthenticationOptions());
+                var result = await _scalekitClient.AuthenticateWithCodeAsync(code, redirectUri, new AuthenticationOptions());
                 var user = result.User;
 
                 if (user == null || string.IsNullOrEmpty(user.Id))
