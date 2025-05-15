@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using Scalekit.SDK;
 using Scalekit.SDK.Models;
+using Scalekit.SDK.Logging;
+
 
 using DotNetEnv;
 
@@ -15,14 +17,18 @@ namespace ScalekitSdkNet.Controllers
     public class AuthController : ControllerBase
     {
         private readonly ScalekitClient _scalekitClient;
+
+        private readonly ILogger<AuthController> _logger;
         private readonly string? _redirectUri;
         private static readonly Dictionary<string, User> _userStore = new();
 
-        public AuthController()
+        public AuthController(ILogger<AuthController> logger)
         {
             // Load .env file from the root directory
             Env.Load();
+            _logger = logger;
 
+            var adapterLogger = new MicrosoftLoggerAdapter<AuthController>(logger);
             var scalekitUrl = Environment.GetEnvironmentVariable("SCALEKIT_ENV_URL");
             var clientId = Environment.GetEnvironmentVariable("SCALEKIT_CLIENT_ID");
             var clientSecret = Environment.GetEnvironmentVariable("SCALEKIT_CLIENT_SECRET");
@@ -30,6 +36,11 @@ namespace ScalekitSdkNet.Controllers
 
             // Initialize ScalekitClient with env vars
             _scalekitClient = new ScalekitClient(scalekitUrl, clientId, clientSecret);
+  
+            // Uncomment the following line if you want to use the logger (Microsoft Adapter logger or a custom logger)
+            // _scalekitClient = new ScalekitClient(scalekitUrl, clientId, clientSecret, adapterLogger);
+            // _logger.LogInformation("AuthController initialized with ScalekitClient.");
+
         }
         
         [HttpGet("me")]
