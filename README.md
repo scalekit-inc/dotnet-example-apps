@@ -6,15 +6,31 @@
   </a>
   <br/>
 </p>
+
 <h1 align="center">
-  Scalekit ASP.NET Example App
+  Scalekit .NET Example Apps
 </h1>
 
-<h4 align="center">
-Scalekit helps you ship Enterprise Auth in days.
+<p align="center">
+  <strong>Auth stack for AI apps ⚡ Human auth capabilities</strong>
+</p>
 
-This ASP.NET Core Web API Sample App showcases the Scalekit Official .NET SDK implementation.
-</h4>
+<p align="center">
+  <a href="https://www.nuget.org/packages/Scalekit.SDK"><img src="https://img.shields.io/nuget/v/Scalekit.SDK.svg" alt="NuGet Version"></a>
+  <a href="https://github.com/scalekit-inc/dotnet-example-apps/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+  <a href="https://docs.scalekit.com"><img src="https://img.shields.io/badge/docs-scalekit.com-blue" alt="Documentation"></a>
+</p>
+
+<p align="center">
+  This ASP.NET Core Web API example demonstrates enterprise authentication using the official Scalekit .NET SDK
+</p>
+
+## 🚀 What This Example Shows
+
+- **Enterprise SSO Integration**: Complete SAML/OIDC authentication flows
+- **ASP.NET Core Integration**: Modern .NET web API patterns with dependency injection  
+- **Session Management**: Secure token handling and user sessions
+- **Production-Ready Code**: Error handling, validation, and security best practices
 
 ## Prerequisites
 
@@ -74,5 +90,24 @@ dotnet run
 Open http://localhost:5125 to view it in the browser.
 ```
 
+## Key Features
+
+- **Enterprise SSO**: SAML 2.0 and OIDC protocols
+- **User Management**: Create, update, and manage organization users
+- **Directory Sync**: SCIM 2.0 for automated user provisioning
+- **Admin Portal**: Embeddable admin interface for IT teams
+- **Session Security**: JWT tokens with secure cookie management
+
 ## Additional Resources
-See the [Scalekit API docs](https://docs.scalekit.com) for more information about the API and authentication.
+
+- 📚 [Scalekit Documentation](https://docs.scalekit.com)
+- 🔧 [API Reference](https://docs.scalekit.com/apis/)
+- 🚀 [Full Stack Auth Quickstart](https://docs.scalekit.com/fsa/quickstart/)
+- 🔗 [SSO Integration Guide](https://docs.scalekit.com/sso/quickstart/)
+- 💬 [Community Examples](https://github.com/orgs/scalekit-developers/repositories)
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://scalekit.com">Scalekit</a>
+</p>
